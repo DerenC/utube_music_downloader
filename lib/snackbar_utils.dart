@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
 const verticalPadding = 5.0;
+const _textStyle = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.bold,
+);
 
 void showSuccessSnackbar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).removeCurrentSnackBar();
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       padding: EdgeInsets.fromLTRB(
@@ -18,7 +23,7 @@ void showSuccessSnackbar(BuildContext context, String message) {
             color: Color(0xFF22A06B),
           ),
           SizedBox(width: 17.0), // `17`
-          Flexible(child: Text(message)),
+          Flexible(child: Text(message, style: _textStyle)),
         ],
       ),
       backgroundColor: const Color(0xFFDCFFF1),
@@ -30,6 +35,7 @@ void showSuccessSnackbar(BuildContext context, String message) {
 
 void showErrorSnackbar(BuildContext context, String message) {
   const leftPadding = 20.0;
+  ScaffoldMessenger.of(context).removeCurrentSnackBar();
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       padding: EdgeInsets.fromLTRB(
@@ -49,7 +55,9 @@ void showErrorSnackbar(BuildContext context, String message) {
             ),
           ),
           SizedBox(width: leftPadding),
-          Flexible(child: Text(message)),
+          Flexible(
+            child: Text(message, style: _textStyle),
+          ),
         ],
       ),
       backgroundColor: const Color.fromARGB(255, 251, 225, 206),
@@ -61,7 +69,7 @@ void showErrorSnackbar(BuildContext context, String message) {
 
 void showInformationSnackbar(BuildContext context, String message) {
   const verticalPadding = 5.0;
-
+  ScaffoldMessenger.of(context).removeCurrentSnackBar();
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       padding: EdgeInsets.fromLTRB(15.0, verticalPadding, 6.0, verticalPadding),
@@ -73,7 +81,9 @@ void showInformationSnackbar(BuildContext context, String message) {
             color: Color(0xFF0049B0),
           ),
           SizedBox(width: 17.0),
-          Flexible(child: Text(message)),
+          Flexible(
+            child: Text(message, style: _textStyle),
+          ),
         ],
       ),
       backgroundColor: const Color(0xFFCCE0FF),
