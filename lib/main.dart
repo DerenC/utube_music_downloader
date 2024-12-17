@@ -11,6 +11,10 @@ import 'dart:io';
 const _primaryColor = Color(0xFFF98289);
 // const _primaryColor = Color(0xFFF97D8E);
 
+const _secondaryColor = Color(0xFF1F1A32);
+const _circularProgressIndicator =
+    CircularProgressIndicator(color: _secondaryColor);
+
 void main() {
   runApp(MyApp());
 }
@@ -24,10 +28,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.dark, // This ensures it's a dark theme
         primaryColor: _primaryColor, // Primary color for foreground elements
-        scaffoldBackgroundColor:
-            const Color(0xFF1F1A32), // Dark blue background color
+        scaffoldBackgroundColor: _secondaryColor, // Dark blue background color
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF1F1A32), // Dark blue app bar
+          backgroundColor: _secondaryColor, // Dark blue app bar
           foregroundColor: _primaryColor, // Amber icons/text in app bar
         ),
         textTheme: const TextTheme(
@@ -43,12 +46,12 @@ class MyApp extends StatelessWidget {
             const IconThemeData(color: _primaryColor), // Icon color is amber
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
           backgroundColor: _primaryColor, // FAB background color
-          foregroundColor: Color(0xFF1F1A32), // FAB icon/text color (dark blue)
+          foregroundColor: _secondaryColor, // FAB icon/text color (dark blue)
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(_primaryColor),
-            foregroundColor: MaterialStateProperty.all(const Color(0xFF1F1A32)),
+            foregroundColor: MaterialStateProperty.all(_secondaryColor),
           ),
         ),
       ),
@@ -228,7 +231,7 @@ class MyHomePageState extends State<MyHomePage> {
                     _youtubeUrl = value;
                   },
                   decoration: InputDecoration(
-                    labelText: 'Enter URL',
+                    labelText: 'Enter Youtube URL',
                   ),
                 ),
               ),
@@ -255,13 +258,13 @@ class MyHomePageState extends State<MyHomePage> {
               SizedBox(height: 20),
               SizedBox(
                 height: 40,
-                width: 180,
+                width: 220,
                 child: ElevatedButton(
                   onPressed: () {
                     _getYoutubeTitle(_youtubeUrl).then((value) {
                       _fileNameController.text = value;
                       showSuccessSnackbar(
-                          context, 'Retrieve title successfully');
+                          context, 'Retrieve video title successfully');
                       setState(() {
                         _isBottomButtonLoading = false;
                       });
@@ -271,16 +274,16 @@ class MyHomePageState extends State<MyHomePage> {
                       });
                       debugPrint('Error: $e');
                       showErrorSnackbar(
-                          context, 'Failed to get title: ${e.message}');
+                          context, 'Failed to get video title: ${e.message}');
                     });
                   },
                   child: _isBottomButtonLoading
                       ? SizedBox(
                           height: 20.0,
                           width: 20.0,
-                          child: CircularProgressIndicator(),
+                          child: _circularProgressIndicator,
                         )
-                      : Text('Get title from URL'),
+                      : Text('Get video title from URL'),
                 ),
               ),
               SizedBox(height: 20),
@@ -309,7 +312,7 @@ class MyHomePageState extends State<MyHomePage> {
                       ? SizedBox(
                           height: 20.0,
                           width: 20.0,
-                          child: CircularProgressIndicator(),
+                          child: _circularProgressIndicator,
                         )
                       : Text('Download the song'),
                 ),
