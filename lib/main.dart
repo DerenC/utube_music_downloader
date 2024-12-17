@@ -32,16 +32,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class MyHomePageState extends State<MyHomePage> {
-  String _youtubeUrl = '';
-  TextEditingController _directoryPathController = TextEditingController(
+  final _directoryPathController = TextEditingController(
     text: 'Music/utube_music_downloader',
   );
-  TextEditingController _fileNameController = TextEditingController();
+  final _fileNameController = TextEditingController();
   final _textFieldFocusNodes = [
     FocusNode(),
     FocusNode(),
     FocusNode(),
   ];
+
+  String _youtubeUrl = '';
   bool _isTopButtonLoading = false;
   bool _isBottomButtonLoading = false;
 
