@@ -6,6 +6,11 @@ import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
+// const _primaryColor = Color(0xFFFAA76C);
+// const _primaryColor = Color(0xFFFA937C);
+const _primaryColor = Color(0xFFF98289);
+// const _primaryColor = Color(0xFFF97D8E);
+
 void main() {
   runApp(MyApp());
 }
@@ -17,10 +22,41 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Utube Music Downloader',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.lightBlue,
+        brightness: Brightness.dark, // This ensures it's a dark theme
+        primaryColor: _primaryColor, // Primary color for foreground elements
+        scaffoldBackgroundColor:
+            const Color(0xFF1F1A32), // Dark blue background color
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF1F1A32), // Dark blue app bar
+          foregroundColor: _primaryColor, // Amber icons/text in app bar
+        ),
+        textTheme: const TextTheme(
+          bodyLarge:
+              TextStyle(color: Colors.white), // General text color is white
+          bodyMedium:
+              TextStyle(color: Colors.white), // General text color is white
+          titleLarge: TextStyle(
+              color: _primaryColor,
+              fontWeight: FontWeight.bold), // Headings amber
+        ),
+        iconTheme:
+            const IconThemeData(color: _primaryColor), // Icon color is amber
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: _primaryColor, // FAB background color
+          foregroundColor: Color(0xFF1F1A32), // FAB icon/text color (dark blue)
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(_primaryColor),
+            foregroundColor: MaterialStateProperty.all(const Color(0xFF1F1A32)),
+          ),
         ),
       ),
+      // theme: ThemeData(
+      //   colorScheme: ColorScheme.fromSeed(
+      //     seedColor: Colors.lightBlue,
+      //   ),
+      // ),
       home: MyHomePage(),
     );
   }
