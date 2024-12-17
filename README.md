@@ -1,4 +1,4 @@
-# utube_music_downloader
+# Utube Music Downloader
 
 A new Flutter project.
 
