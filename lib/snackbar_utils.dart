@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const verticalPadding = 5.0;
+const _verticalPadding = 5.0;
 const _textStyle = TextStyle(
   color: Colors.black,
   fontWeight: FontWeight.bold,
@@ -12,9 +12,9 @@ void showSuccessSnackbar(BuildContext context, String message) {
     SnackBar(
       padding: EdgeInsets.fromLTRB(
         15.0,
-        verticalPadding,
+        _verticalPadding,
         6.0,
-        verticalPadding,
+        _verticalPadding,
       ),
       content: Row(
         children: [
@@ -40,9 +40,9 @@ void showErrorSnackbar(BuildContext context, String message) {
     SnackBar(
       padding: EdgeInsets.fromLTRB(
         leftPadding,
-        verticalPadding,
+        _verticalPadding,
         7.0,
-        verticalPadding,
+        _verticalPadding,
       ),
       content: Row(
         children: [
@@ -68,11 +68,12 @@ void showErrorSnackbar(BuildContext context, String message) {
 }
 
 void showInformationSnackbar(BuildContext context, String message) {
-  const verticalPadding = 5.0;
+  const _verticalPadding = 5.0;
   ScaffoldMessenger.of(context).removeCurrentSnackBar();
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      padding: EdgeInsets.fromLTRB(15.0, verticalPadding, 6.0, verticalPadding),
+      padding:
+          EdgeInsets.fromLTRB(15.0, _verticalPadding, 6.0, _verticalPadding),
       content: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
