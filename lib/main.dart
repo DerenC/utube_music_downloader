@@ -84,6 +84,16 @@ class MyHomePageState extends State<MyHomePage> {
     for (var focusNode in _textFieldFocusNodes) {
       focusNode.unfocus();
     }
+
+    if (_youtubeUrl.isEmpty) {
+      throw Exception('URL is empty');
+    }
+
+    if (!_youtubeUrl.contains('youtube.com') &&
+        !_youtubeUrl.contains('youtu.be')) {
+      throw Exception('Invalid URL');
+    }
+
     setState(() {
       _isTopButtonLoading = true;
     });
