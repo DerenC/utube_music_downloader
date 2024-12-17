@@ -78,7 +78,7 @@ class MyHomePageState extends State<MyHomePage> {
     File? file;
     try {
       if (defaultTargetPlatform == TargetPlatform.android) {
-        // public Music folder - android only - API>30
+        // public Music folder - android only - API > 30
         directory =
             Directory('/storage/emulated/0/${_directoryPathController.text}');
       } else {
