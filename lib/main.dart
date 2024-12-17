@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:namer_app/snackbar_utils.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'package:path_provider/path_provider.dart';
@@ -105,11 +106,11 @@ class MyHomePageState extends State<MyHomePage> {
         directory.create();
       }
 
-      //file to saved
-      final filename = _fileNameController.text.isEmpty
-          ? video.title
-          : _fileNameController.text;
-      final savePath = '${directory.path}/$filename.mp3';
+      // File to saved
+      if (_fileNameController.text.isEmpty) {
+        _fileNameController.text = video.title;
+      }
+      final savePath = '${directory.path}/${_fileNameController.text}.mp3';
       file = File(savePath);
 
       debugPrint('File to be saved: $savePath');
@@ -220,24 +221,7 @@ class MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   _getYoutubeTitle(_youtubeUrl).then((value) {
                     _fileNameController.text = value;
-
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Row(children: [
-                          Icon(
-                            Icons.check,
-                            color: Colors.white,
-                          ),
-                          SizedBox(width: 15),
-                          Text('Retrieve title successfully',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              )),
-                        ]),
-                        backgroundColor: Colors.green[300],
-                      ),
-                    );
+                    showSuccessSnackbar(context, 'Retrieve title successfully');
                     setState(() {
                       _isBottomButtonLoading = false;
                     });
@@ -246,24 +230,8 @@ class MyHomePageState extends State<MyHomePage> {
                       _isBottomButtonLoading = false;
                     });
                     debugPrint('Error: $e');
-
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Row(children: [
-                          Icon(
-                            Icons.error,
-                            color: Colors.white,
-                          ),
-                          SizedBox(width: 15),
-                          Text('Failed to get title: ${e.message}',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              )),
-                        ]),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
+                    showErrorSnackbar(
+                        context, 'Failed to get title: ${e.message}');
                   });
                 },
                 child: _isBottomButtonLoading
@@ -283,24 +251,9 @@ class MyHomePageState extends State<MyHomePage> {
                 onPressed: _isTopButtonLoading
                     ? null
                     : () => _downloadMusic().then(
-                          (value) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Row(children: [
-                                  Icon(
-                                    Icons.check,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(width: 15),
-                                  Text('Downloaded successfully',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      )),
-                                ]),
-                                backgroundColor: Colors.green[300],
-                              ),
-                            );
+                          (_) {
+                            showSuccessSnackbar(context,
+                                'Downloaded "${_fileNameController.text}" successfully');
                           },
                         ).catchError(
                           (e) {
@@ -308,24 +261,8 @@ class MyHomePageState extends State<MyHomePage> {
                               _isTopButtonLoading = false;
                             });
                             debugPrint('Error: $e');
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Row(children: [
-                                  Icon(
-                                    Icons.error,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(width: 15),
-                                  Text(
-                                      'Failed to download: ${e.message == 'Cannot create file' ? 'File already exists' : e.message}',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      )),
-                                ]),
-                                backgroundColor: Colors.red,
-                              ),
-                            );
+                            showErrorSnackbar(context,
+                                'Failed to download: ${e.message == 'Cannot create file' ? 'File already exists' : e.message}');
                           },
                         ),
                 child: _isTopButtonLoading
