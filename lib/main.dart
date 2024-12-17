@@ -201,112 +201,122 @@ class MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Download any YouTube video \n as MP3 song',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Image.asset(
+                'assets/logo.png',
+                width: 200,
+                height: 200,
               ),
-            ),
-            SizedBox(height: 10),
-            SizedBox(
-              width: 300,
-              child: TextField(
-                focusNode: _textFieldFocusNodes[0],
-                onChanged: (value) {
-                  _youtubeUrl = value;
-                },
-                decoration: InputDecoration(
-                  labelText: 'Enter URL',
+              Text(
+                'Download any YouTube video \n as MP3 song',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-            SizedBox(
-              width: 300,
-              child: TextField(
-                focusNode: _textFieldFocusNodes[1],
-                controller: _directoryPathController,
-                decoration: InputDecoration(
-                  labelText: 'Download directory path',
+              SizedBox(height: 10),
+              SizedBox(
+                width: 300,
+                child: TextField(
+                  focusNode: _textFieldFocusNodes[0],
+                  onChanged: (value) {
+                    _youtubeUrl = value;
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Enter URL',
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              width: 300,
-              child: TextField(
-                focusNode: _textFieldFocusNodes[2],
-                controller: _fileNameController,
-                decoration: InputDecoration(
-                  labelText: 'File Name',
+              SizedBox(
+                width: 300,
+                child: TextField(
+                  focusNode: _textFieldFocusNodes[1],
+                  controller: _directoryPathController,
+                  decoration: InputDecoration(
+                    labelText: 'Download directory path',
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            SizedBox(
-              height: 40,
-              width: 180,
-              child: ElevatedButton(
-                onPressed: () {
-                  _getYoutubeTitle(_youtubeUrl).then((value) {
-                    _fileNameController.text = value;
-                    showSuccessSnackbar(context, 'Retrieve title successfully');
-                    setState(() {
-                      _isBottomButtonLoading = false;
+              SizedBox(
+                width: 300,
+                child: TextField(
+                  focusNode: _textFieldFocusNodes[2],
+                  controller: _fileNameController,
+                  decoration: InputDecoration(
+                    labelText: 'File Name',
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              SizedBox(
+                height: 40,
+                width: 180,
+                child: ElevatedButton(
+                  onPressed: () {
+                    _getYoutubeTitle(_youtubeUrl).then((value) {
+                      _fileNameController.text = value;
+                      showSuccessSnackbar(
+                          context, 'Retrieve title successfully');
+                      setState(() {
+                        _isBottomButtonLoading = false;
+                      });
+                    }).catchError((e) {
+                      setState(() {
+                        _isBottomButtonLoading = false;
+                      });
+                      debugPrint('Error: $e');
+                      showErrorSnackbar(
+                          context, 'Failed to get title: ${e.message}');
                     });
-                  }).catchError((e) {
-                    setState(() {
-                      _isBottomButtonLoading = false;
-                    });
-                    debugPrint('Error: $e');
-                    showErrorSnackbar(
-                        context, 'Failed to get title: ${e.message}');
-                  });
-                },
-                child: _isBottomButtonLoading
-                    ? SizedBox(
-                        height: 20.0,
-                        width: 20.0,
-                        child: CircularProgressIndicator(),
-                      )
-                    : Text('Get title from URL'),
+                  },
+                  child: _isBottomButtonLoading
+                      ? SizedBox(
+                          height: 20.0,
+                          width: 20.0,
+                          child: CircularProgressIndicator(),
+                        )
+                      : Text('Get title from URL'),
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-            SizedBox(
-              height: 40,
-              width: 180,
-              child: ElevatedButton(
-                onPressed: _isTopButtonLoading
-                    ? null
-                    : () => _downloadMusic().then(
-                          (_) {
-                            showSuccessSnackbar(context,
-                                'Downloaded "${_fileNameController.text}" successfully');
-                          },
-                        ).catchError(
-                          (e) {
-                            setState(() {
-                              _isTopButtonLoading = false;
-                            });
-                            debugPrint('Error: $e');
-                            showErrorSnackbar(context,
-                                'Failed to download: ${e.message == 'Cannot create file' ? 'File already exists' : e.message}');
-                          },
-                        ),
-                child: _isTopButtonLoading
-                    ? SizedBox(
-                        height: 20.0,
-                        width: 20.0,
-                        child: CircularProgressIndicator(),
-                      )
-                    : Text('Download the song'),
+              SizedBox(height: 20),
+              SizedBox(
+                height: 40,
+                width: 180,
+                child: ElevatedButton(
+                  onPressed: _isTopButtonLoading
+                      ? null
+                      : () => _downloadMusic().then(
+                            (_) {
+                              showSuccessSnackbar(context,
+                                  'Downloaded "${_fileNameController.text}" successfully');
+                            },
+                          ).catchError(
+                            (e) {
+                              setState(() {
+                                _isTopButtonLoading = false;
+                              });
+                              debugPrint('Error: $e');
+                              showErrorSnackbar(context,
+                                  'Failed to download: ${e.message == 'Cannot create file' ? 'File already exists' : e.message}');
+                            },
+                          ),
+                  child: _isTopButtonLoading
+                      ? SizedBox(
+                          height: 20.0,
+                          width: 20.0,
+                          child: CircularProgressIndicator(),
+                        )
+                      : Text('Download the song'),
+                ),
               ),
-            ),
-          ],
+              SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );
